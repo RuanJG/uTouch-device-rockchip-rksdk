@@ -1,0 +1,146 @@
+#!/system/bin/sh
+#!/system/bin/busybox sh
+# configure desktop application
+
+DESKTOP_APP="set"
+GET_APP_CONFIG="get"
+FRAMEWORK_CONFIG="framework"
+
+APPWIDGETS_XML="/data/system/users/0/appwidgets.xml"
+LAUNCHER_DATA="/data/data/com.android.launcher"
+
+LAUNCHER_DEFAULT="/system/usr/data"
+LAUNCHER_SDCARD="/sdcard/launcher"
+
+#launch2
+#LAUNCHER_PREFS='com.android.launcher2.prefs.xml'
+#launch3
+LAUNCHER_PREFS='com.android.launcher3.prefs.xml'
+
+GALLERY3D_DATA="/data/data/com.android.gallery3d"
+
+
+######################## for debug ###########################
+function enable_log()
+{
+	LOG_FILE="/data/tool.log"
+
+	exec 2>> $LOG_FILE
+	exec 1>> $LOG_FILE
+	echo "----------------------------------"
+	echo "para: $*"
+}
+
+######################## function ###########################
+function do_dir()
+{
+# $1 <USER>[:GROUP]
+# $2 dir
+	mkdir $2 && chown $1 $2 
+	echo "mkdir--> $1 $2"
+}
+
+function create_dir()
+{
+# $1 <USER>[:GROUP]
+# $2 dir
+	local parents=`busybox dirname "$2"`
+	local cur=$2
+
+	if [ ! -d $parents ] ; then
+		create_dir $1  $parents
+	fi
+
+	do_dir $1 $cur
+}
+
+function set_cfg()
+{
+	busybox mkdir -p $LAUNCHER_DATA/databases
+	busybox mkdir -p $LAUNCHER_DATA/files
+    busybox mkdir -p $LAUNCHER_DATA/shared_prefs
+	busybox cp $LAUNCHER_DEFAULT/launcher.db $LAUNCHER_DATA/databases/launcher.db
+	busybox cp $LAUNCHER_DEFAULT/launcher.preferences $LAUNCHER_DATA/files/launcher.preferences
+    busybox cp $LAUNCHER_DEFAULT/$LAUNCHER_PREFS $LAUNCHER_DATA/shared_prefs/$LAUNCHER_PREFS
+	busybox cp $LAUNCHER_DEFAULT/appwidgets.xml $APPWIDGETS_XML
+    busybox chmod 777 -R $LAUNCHER_DATA/
+
+	#拷贝图片
+	busybox cp $LAUNCHER_DEFAULT/*.jpg /sdcard/
+
+	#拷贝Photo Gallery widget数据库
+    busybox mkdir -p $GALLERY3D_DATA/databases
+    busybox cp $LAUNCHER_DEFAULT/gallery3d_launcher.db $GALLERY3D_DATA/databases/launcher.db
+	busybox chmod 777 -R $GALLERY3D_DATA/
+
+}
+
+function get_cfg()
+{
+	busybox mkdir -p $LAUNCHER_SDCARD
+    busybox chmod 777 -R $LAUNCHER_SDCARD
+	busybox cp $LAUNCHER_DATA/databases/launcher.db $LAUNCHER_SDCARD
+	busybox cp $LAUNCHER_DATA/files/launcher.preferences $LAUNCHER_SDCARD
+    busybox cp $LAUNCHER_DATA/shared_prefs/$LAUNCHER_PREFS $LAUNCHER_SDCARD
+	busybox cp $APPWIDGETS_XML $LAUNCHER_SDCARD
+
+    #拷贝Photo Gallery widget数据库    
+    busybox cp $GALLERY3D_DATA/databases/launcher.db $LAUNCHER_SDCARD/gallery3d_launcher.db
+
+	/system/bin/setprop "app.launcher.start" "2"
+}
+
+function framework()
+{
+	if [ -f $APPWIDGETS_XML ];then
+		echo "system auto configured appwidget."
+	else
+		echo "initialize customer appwidgets"
+		XML_PATH=`busybox dirname $APPWIDGETS_XML`
+       	create_dir system:system $XML_PATH 
+		busybox cp -f $LAUNCHER_DEFAULT/appwidgets.xml $APPWIDGETS_XML
+        chown system.system $APPWIDGETS_XML
+	fi
+}
+
+
+
+######################## main ###########################
+# enable_log $* ; set -x
+
+echo "begin to configure system ui."
+
+#add by ruan
+if [ -e $LAUNCHER_DATA/databases/launcher.db ];then
+	echo "test the system using launcher2"
+	LauncherVer=2
+else
+	LAUNCHER_DATA="/data/data/com.android.launcher3"
+	if [ -e $LAUNCHER_DATA/databases/launcher.db ];then
+		echo "test the system using launcher3"
+		LAUNCHER_PREFS='com.android.launcher3.prefs.xml'
+		LauncherVer=3
+	else
+		echo "test the system using unknow launcher"
+	fi
+fi
+
+case "$1" in
+	"$DESKTOP_APP")
+		echo "configuring desktop application..."
+		set_cfg 
+		;;
+	"$GET_APP_CONFIG")
+    	echo "get launcher Config"
+		get_cfg
+		;;
+ 	"$FRAMEWORK_CONFIG")
+    	echo "configuring framework..."
+		framework
+		;;
+	*) 
+		echo "unexpected argument."
+	;;
+esac
+
+

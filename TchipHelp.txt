@@ -1,0 +1,305 @@
+
+一、参数解析
+ro.build.id
+说明：
+    版本ID
+ro.build.display.id
+说明：
+    版本号（显示在设置-> 关于平板电脑 -> 版本号 后部分）
+ro.build.version.incremental
+说明：
+    版本增量
+ro.build.version.sdk
+说明：
+    SDK版本号（16：指Android 16）
+ro.build.version.codename
+说明：
+    版本代号
+ro.build.version.release
+说明：
+    Android版本号（4.1.1：指Android 4.1.1）
+ro.build.date
+说明：
+    制作者制作时间（即编译完成的时间点）
+☆ro.product.model
+说明：
+    机器型号（设置->关于平板电脑->型号）
+ro.product.brand
+说明：
+    设备品牌
+ro.product.name
+说明：
+    设备正式名称
+ro.product.device
+说明：
+    采用的设备
+ro.product.board
+说明：
+    采用的处理器
+ro.product.cpu.abi
+说明：
+     CPU的版本
+
+ro.product.cpu.abi2
+说明：
+     CPU的品牌
+ro.product.manufacturer
+说明：
+     设备制造商/显示USB设备名（与卷标区别）
+ro.wifi.channels
+说明：
+     WIFI连接的渠道
+ro.board.platform
+说明：
+     主板平台
+ro.build.product
+说明：
+     建立产品
+以下两个值不要试图修改：
+ro.build.description
+说明：
+    用户的Key
+ro.build.fingerprint
+说明：
+    机身码
+ro.build.characteristics
+说明：
+    设备模式（我们的设备通常是tablet）
+☆ro.com.android.dateformat=MM-dd-yyyy
+说明：
+    默认时间格式，显示效果：XX月XX日XXXX年
+☆ro.config.ringtone
+说明：
+     默认铃声（需指定系统已存在的铃声，铃声路径：system/media/audio/ringtones)
+
+☆ro.config.notification_sound
+说明：
+    默认提示音(路径：system/media/audio/notifications)
+ 
+☆ro.carrier
+说明：
+     未认证过，感觉是开机动画时的开机铃声（后边补充更新）
+
+☆ro.config.alarm_alert
+说明：
+    默认闹铃（文件路径：system/media/audio/alarms）
+ 
+-----
+静音/无指定值为unknown
+例如：ro.config.notification_sound=unknown
+     
+☆dalvik.vm.heapstartsize=16m
+说明：
+    进程初始化大小
+☆dalvik.vm.heapgrowthlimit=192m
+说明：
+     单进程最大内存使用大小，超过系统就会报内存溢出
+☆dalvik.vm.heapsize=512m
+说明：
+     虚拟机内存大小
+☆ro.config.facelock
+说明：
+      是否支持人脸解锁（设置->安全->屏幕锁定->人脸解锁）
+值：
+enable_facelock
+ 
+persist.facelock.detect_cutoff=5000
+persist.facelock.recog_cutoff=5000
+说明：
+     未知
+ro.rksdk.version
+说明：
+     瑞芯微SDK版本号
+☆ro.sf.hwrotation
+说明：
+     设备开机默认初始显示角度
+值：
+     0、90、180、270
+ 
+☆ro.sf.fakerotation
+说明：
+     假旋转，与ro.sf.hwrotation值相互影响（值为true使屏幕时针旋转90度，即设为true，ro.sf.hwrotation减少90）
+值：
+     true、false
+ 
+ro.rk.MassStorage
+说明：
+     大存储设备，连接USB设备后，自动打开USB存储设备
+☆ro.sf.lcd_density=320
+说明：
+     设备默认显示密度
+值：
+    120、160、240、320
+☆ro.rk.screenoff_time=60000
+说明：
+     设备默认休眠时间
+☆ro.rk.def_brightness=200
+说明：
+     设备默认显示亮度
+☆ro.rk.homepage_base=http://www.google.com/webhp?client={CID}&amp;source=android-home
+说明：
+     浏览器默认主页
+Android 多国语言文件夹
+  
+ persist.sys.language (优先级高)
+☆ro.product.locale.language=zh
+说明：
+     设备默认语言
+   persist.sys.country(优先级高)
+☆ro.product.locale.region=CN
+说明：
+     地区语言
+☆persist.sys.timezone=Asia/Shanghai
+说明：
+     时间显示时区
+☆ro.rk.install_non_market_apps
+说明：
+     是否允许非谷歌市场应用安装（对应修改值：设置->安全->未知来源）
+值：
+     true、false
+☆ro.rk.bt_enable
+说明：
+      设备是否支持蓝牙功能（设置为False：设置里边去掉蓝牙模块，设置为true：显示蓝牙功能）
+值：
+     true、false
+persist.sys.strictmode.visual=false
+persist.sys.strictmode.disable=true
+说明：
+     点击屏幕后，当CPU占用过高时，android4.0.3以上版本会显示出一个红框出来，去掉红框只需配置这两个值中的一个为上所示即可
+wifi.supplicant_scan_interval
+说明：
+     Wifi扫描间隔时间，该文件里边设置单位为秒
+☆ro.product.usbfactory
+说明：
+     设备卷标名，即连接电脑后显示的盘符名字
+dalvik.vm.checkjni
+ro.kernel.android.checkjni
+说明：
+     这两个系统属性控制着变量checkJni，如果需要调试系统JNI则打开（源码路径：base/core/jni/AndroidRuntime.cpp:479）
+☆persist.sys.usb.config=mass_storage
+说明：
+     初始化USB模式（大存储设备还是ADB调试模式）
+值：
+     mass_storage、adb
+☆ro.default.size=100
+说明：
+     默认字体大小（设置->显示->字体大小->小、普通、大、超大）
+值：
+     85、100、115、130
+☆ro.tether.denied
+说明：
+     是否显示便携式热点功能（设置->无线和网络（更多）->便携式热点）
+值：
+     true(去点)、false或缺省（显示）
+ 
+4.4 ： ro.tchip.softap
+net.bt.name=Android
+说明：
+     系统名称
+ro.tchip.version
+说明：
+     显示在固件版本后部分信息（设置->关于平板电脑->固件版本）
+☆sys.ums.connected
+说明：
+     连接USB数据线，是否弹出USB连接提示框
+值：
+     ture（弹出）、false（不弹出）
+wifi.interface=wlan0 （wifi接口）
+说明：
+     无线网卡命名方式（有wlan0，eth0等，通常不要随便修改，导致无法使用wifi）
+★ ro.rk.systembar.voiceicon
+说明：
+  示音量调节按钮
+值：
+     false：不显示音量调节按钮
+     true：横屏显示，竖屏不显示   状态栏显
+     all：横竖屏均显示 （tr785、其它机器需要打补丁）
+
+☆ ro.tchip.defaultIME
+说明：
+     设置默认输入法
+值：
+     com.android.inputmethod.pinyin/.PinyinIME：谷歌拼音输入法（PinyinIME）
+     ro.tchip.defaultIME=jp.co.omronsoft.openwnn/.OpenWnnJAJP ： 日文输入法（OpenWnn）
+     缺省：LatinIME
+ ro.tchip.defaultIME=com.android.inputmethod.pinyin/.PinyinIME
+ 
+搜狗输入法：
+com.sohu.inputmethod.sogou/.SogouIME
+★ ro.tchip.orientation
+说明：
+     机器默认是横屏或是竖屏显示，用于设置应用开启默认方向(tr785)
+值：
+     port：默认竖屏
+     land：默认横屏(缺省)
+☆ro.rk.ethernet_enable
+说明：
+     是否支持以太网（设置->无线和网络【更多】-> 以太网）
+值：
+     true：显示以太网(缺省值)
+     false：去掉以太网
+★ro.default.hardkeyboard=keyboard_layout_spanish
+说明：
+     指定默认物理键盘
+值：
+     keyboard_layout_spanish：西班牙键盘
+     （需要补充）
+ 
+★ro.rk.systembar.tabletUI=true
+说明：4.2系统（补丁更新到6月20号）,状态栏显示4.1平板风格
+值：
+     true、false
+☆ fw.max_users
+说明：4.2系统多用户模式，默认没有指定，若指定值大于1则支持多用户模式
+
+ 
+ system/core
+######  serial number read from flash or auto 当为false时就是从flash中读序列号,默认为true
+ro.tchip.serialno_auto=true
+
+packages/apps/Provision
+ro.tchip.use_uiconfig=false/true，默认为false，关闭拷贝布局文件的功能
+这两个属性，大家要注意下咯，
+ro.tchip.fix_wallpaper=[true/false]
+ 
+ 
+ 
+ 
+时间显示格式：
+ro.tchip.time_12_24
+ 
+其它:
+ro.build.type=eng
+ro.build.user=zzp
+ro.build.host=tchip-super
+ro.build.tags=release-keys
+ro.build.date.utc=1369038479
+ro.sf.lcdc_landscape=1
+sys.bluetooth.module.mtk=0
+sys.4in1.module.mtk=0
+dalvik.vm.jniopts=warnonly
+
+sys.hwc.compose_policy=6
+sf.power.control=2073600
+ 
+ro.opengles.version=131072
+ro.factory.tool=0
+ro.factory.storage_policy=0
+testing.mediascanner.skiplist=/mnt/sdcard/Android/
+rild.libargs=-d_/dev/ttyUSB1
+ril.pppchannel=/dev/ttyUSB2
+rild.libpath=/system/lib/libril-rk29-dataonly.so
+ril.function.dataonly=1
+ro.product.version=1.0.0
+ro.product.ota.host=www.rockchip.com:2300
+dalvik.vm.dexopt-flags=m=y
+dalvik.vm.stack-trace-file=/data/anr/traces.txt
+...
+ 
+ 
+ 
+注：★ 为3188特有的，☆为常用的
+ 
+Android4.4新增属性:
+ro.config.low_ram=true 
+
